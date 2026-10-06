@@ -1,4 +1,4 @@
-# the owner's agent team: William, Nica, Willy
+# The agent team: William, Nica, Willy (reference install — rename in config.yaml)
 
 How three agents on three platforms work together for the owner, using one Gmail inbox
 and one Telegram chat. Written 2026-10-05 for all three agents and for the owner. Names are the defaults from the reference install; rename freely in config.yaml. If you are Nica or
@@ -10,7 +10,7 @@ Willy, this is the whole protocol; you do not need anything else from William's 
 |---|---|---|---|
 | **William** | Claude Code, the owner's Mac | **Front door.** Receives everything from the outside world (the owner on Telegram, the owner's family on Telegram, email from people), decides who does the work, relays the result back. Also runs the owner's calendar, bills, reminders, week plan. | the owner and family on Telegram; Nica and Willy by email |
 | **Nica** | Meta Muse | **Personal matters.** Family logistics, home, errands, kids' day-to-day, health appointments, personal reminders, anything the owner's family ask for. | William by email only |
-| **Willy** | OpenAI Dots | **Professional and semi-professional matters.** Fundraising, PTO and school activities, Artesano, job search, anything with an organization on the other end. | William by email only |
+| **Willy** | OpenAI Dots | **Professional and semi-professional matters.** Fundraising, PTO and school activities, a business or side project, job search, anything with an organization on the other end. | William by email only |
 
 Nica and Willy never contact the owner, his family, or anyone else directly. When they have a
 result or a question for a human, they email William, and William delivers it (Telegram to

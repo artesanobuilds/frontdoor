@@ -100,11 +100,11 @@ if ! "$TMUX_BIN" -N ls >/dev/null 2>&1; then
 fi
 
 # 2026-10-05: Claude Code keeps a SHARED cache of MCP servers it believes need auth
-# (~/.claude/mcp-needs-auth-cache.json). When any OTHER session in this directory (a bb thread,
+# (~/.claude/mcp-needs-auth-cache.json). When any OTHER session in this directory (another agent UI,
 # a `claude --resume`) loads the telegram plugin, the WILLIAM_CHANNEL guard makes it exit, and
 # Claude Code records plugin:telegram:telegram there. Every session started afterwards -- William
 # included -- then silently skips the channel: no bun child, "did not come up within 60s", recycle
-# loop (10:57-11:06 today, three recycles). Drop the entry before each start.
+# loop (three recycles in ten minutes the day this was found). Drop the entry before each start.
 NAC="$HOME/.claude/mcp-needs-auth-cache.json"
 if [[ -f "$NAC" ]] && grep -q 'plugin:telegram:telegram' "$NAC"; then
   /usr/bin/python3 - "$NAC" <<'PY' && log "cleared stale plugin:telegram:telegram entry from mcp-needs-auth-cache.json"
@@ -130,7 +130,7 @@ export WILLIAM_CHANNEL=1
 # 2026-10-05: -e ONLY, never `setenv -g`. The global setenv leaked the guard into every pane
 # created later on the shared server (other terminal tabs), so other
 # Claude sessions started their own pollers and stole the token. Those were the "foreign"
-# pollers in keeper.log (08:28 parent was a bb thread's claude): the real recycle-storm cause.
+# pollers in keeper.log (the kill line's parent pid was another Claude session): the real cause.
 "$TMUX_BIN" new-session -d -s "$SESSION" -c "$WHOME" -e "WILLIAM_CHANNEL=1" \
   "$CLAUDE --model $MODEL --effort medium --channels plugin:telegram@claude-plugins-official"
 

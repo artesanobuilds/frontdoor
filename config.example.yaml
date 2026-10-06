@@ -11,7 +11,7 @@ telegram:
   chat_id: "123456789"            # YOUR Telegram user id (== your DM chat id). The ONLY proactive target.
   family:                         # people who may DM the bot with requests; see guides/family.md
     # "987654321": { name: Mom, relation: mother, lang: en }
-    # "876543210": { name: Papá, relation: father, lang: es }
+    # "876543210": { name: Dad, relation: father, lang: es }
 
 areas:                            # the life areas William files TODOs and coaching against
   - { key: family,   label: "👨‍👩‍👧 Family" }

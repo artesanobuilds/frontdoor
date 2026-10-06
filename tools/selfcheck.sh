@@ -99,8 +99,8 @@ for rel in ("reminders.yaml", "state/reminders.yaml"):
 PYEOF2
 
 # D3. STAGED SEND vs. REMINDER DOUBLE-PING (added 2026-10-03 calibration).
-#     Real near-miss that day: the W41 planning offer was staged for Sun 09:00-11:00 PT while
-#     reminder hes-spirit-week-2026-10-05 was due Sun 09:00 with the SAME content. Reminders are
+#     Real near-miss that day: a planning offer was staged for a Sunday morning window while
+#     a school-event reminder was due the same morning with the SAME content. Reminders are
 #     processed at STEP 2 of the tick order, BEFORE staged-send handling, so the 09:00 tick would
 #     have fired the reminder as its own message and THEN sent the offer -- two messages, minutes
 #     apart, same content. It was caught by hand and fixed by writing a guard into the reminder's

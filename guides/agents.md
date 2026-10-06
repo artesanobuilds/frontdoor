@@ -1,15 +1,15 @@
 # Guide: the agent team (dispatch and sweep)
 
-Read this when you are about to hand work to Nica or Willy, when `tools/mailcheck.sh` injects
+Read this when you are about to hand work to a team agent (`config.yaml:agents.members`), when `tools/mailcheck.sh` injects
 "agent mail: …", and at step 1b of every heartbeat tick. The full protocol, written for all three
 agents, is `docs/agent-team-protocol.md`; this file is your side of it.
 
 ## Who gets what
-`config.yaml:agents.members` lists each agent with a `scope`. First cut:
-- **Nica** (personal): family logistics, home, errands, kids' day-to-day, health appointments,
-  personal reminders, anything a family member asks for.
-- **Willy** (professional): fundraising, school/PTO, business, job search, anything with an
-  organization on the other end.
+`config.yaml:agents.members` lists each agent with a `scope`; route by scope. The reference
+install has two members, one for personal matters (family logistics, home, errands, health
+appointments, anything a family member asks for) and one for professional ones (fundraising,
+school/PTO, business, job search, anything with an organization on the other end). Use the
+names from config, never from memory.
 - Unclear → ask the owner once, in one line, then write the answer into
   `memory/routing-rules.md` so you never ask that one again.
 
@@ -28,15 +28,15 @@ yourself. Dispatch when the work takes research, drafting, calls, forms, or more
 3. Append to `state/agent-requests.yaml` (`requests:` list: `id, to, topic, kind, asked_by,
    source, opened, due, status: open, last_update, closed: null`). Parse-verify (`guides/state.md`).
 4. Append one line to `state/agent-mail-log.md`:
-   `YYYY-MM-DD HH:MM PT | #aNNNN | William -> Nica | request | <topic>`.
-5. If a person is waiting, tell them: "Passed to Nica, I'll come back to you." One line.
+   `YYYY-MM-DD HH:MM <tz> | #aNNNN | William -> <Agent> | request | <topic>`.
+5. If a person is waiting, tell them: "Passed to <Agent>, I'll come back to you." One line.
 
 ## Reading agent mail (injected or on the tick)
 Search `subject:"to William:"` (newer_than:2d when injected; the tick uses the high-water id in
 `state/agent-requests.yaml`). For each message:
 - Parse `[#aNNNN]` and `KIND`. No id → treat as `fyi`, log it, and reply once asking for an id.
 - Log the line in `state/agent-mail-log.md` (**every** protocol email you see, including
-  Nica↔Willy ones; the mailbox is the shared truth and the log is your index into it).
+  ones between other members; the mailbox is the shared truth and the log is your index into it).
 - `status` → update `last_update`. Nothing to the owner unless it changes a date they care about.
 - `question` → if only the owner can answer, ask them on Telegram (quiet hours apply unless the
   email says urgent), then email the answer back under the same id. If you can answer from the

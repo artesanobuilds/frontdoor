@@ -23,7 +23,7 @@ For each message:
    `- [ ] <request>  (from: Mom, added YYYY-MM-DD, prio: high|med|low)`. Dedupe: a repeat from
    the same person updates the existing line (`nudged again YYYY-MM-DD`). `high` only when they
    gave a date within 3 days or said urgent/today. Follow `guides/state.md` for the write.
-3. **If it is real work** (research, booking, forms), dispatch it to Nica per
+3. **If it is real work** (research, booking, forms), dispatch it to the personal-matters agent per
    `guides/agents.md` with `ASKED BY: <name> (Telegram, <time>)`, so the answer finds its way back.
 4. **Open a loop** in `state/open-loops.yaml` (`family-request-<slug>-<date>`): "relay to the
    owner and tell <name> when answered". Close it when the owner acts or answers.
