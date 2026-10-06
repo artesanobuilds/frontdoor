@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/agent-team.png" alt="FrontDoor: William faces the people; Nica and Willy do the work; one mailbox ties them together" width="100%">
+  <img src="assets/agent-team.png" alt="FrontDoor: William faces the people; Mica and Willy do the work; one mailbox ties them together" width="100%">
 </p>
 
 <h1 align="center">FrontDoor</h1>
@@ -28,27 +28,27 @@
 
 He remembers things, keeps bills and reminders ahead of their dates, manages a personal Google Calendar and Gmail, holds a TODO list by life area, runs a Sunday week-planning ritual, and coaches, when you ask for it, against the parts of life you said matter. Family members can message him too, in their own language, and he passes their requests on without ever revealing yours.
 
-Behind him, a team of agents does the longer work: **Nica** (personal matters, on Meta Muse) and **Willy** (professional and semi-professional matters, on OpenAI Dots) in the reference install. They never talk to a person. They talk to William, by email, using one shared mailbox and a subject-line protocol any agent on any platform can follow. Every agent keeps a log of every message, so all of them hold the same picture.
+Behind him, a team of agents does the longer work: **Mica** (personal matters, on Meta Muse) and **Willy** (professional and semi-professional matters, on OpenAI Dots) in the reference install. They never talk to a person. They talk to William, by email, using one shared mailbox and a subject-line protocol any agent on any platform can follow. Every agent keeps a log of every message, so all of them hold the same picture.
 
 This repository is the mechanism: the persona, the guides, the keeper, the tools, the protocol, and three months of lessons from running it for real. Your data never goes in it.
 
 ## Quick tour
 
 ```
-You (Telegram) ─┐                           ┌─> Nica   personal      (Meta Muse)
+You (Telegram) ─┐                           ┌─> Mica   personal      (Meta Muse)
 Family ─────────┼──> William  (front door) ─┤   both read every protocol email
 Email ──────────┘        │                  └─> Willy  professional  (OpenAI Dots)
                          │
                          └── one mailbox, routed by subject line:
-                             William to Nica: book the dentist follow-up [#a0007]
+                             William to Mica: book the dentist follow-up [#a0007]
 ```
 
 A day with William looks like this:
 
 - **07:00** the morning digest: the week's three outcomes, today's calendar, what's due, unpaid bills, top TODOs, requests from family, open agent requests, one nudge.
 - **Any time** you text him on Telegram. He answers in seconds. "todo buy a lockable box for each kid" files two items. "bills" shows the list. "week" opens the plan.
-- **Your mother** texts him in Spanish asking you to pick up the cake Saturday. He confirms with her, files it, and it is in your digest tomorrow (or on your phone now, if she said urgent). If it needs real work, he emails Nica.
-- **Nica** emails back `Nica to William: cake ordered, pickup Sat 11:00 [#a0012]`. Within ten minutes William reads it, logs it, and tells you and your mother.
+- **Your mother** texts him in Spanish asking you to pick up the cake Saturday. He confirms with her, files it, and it is in your digest tomorrow (or on your phone now, if she said urgent). If it needs real work, he emails Mica.
+- **Mica** emails back `Mica to William: cake ordered, pickup Sat 11:00 [#a0012]`. Within ten minutes William reads it, logs it, and tells you and your mother.
 - **Sunday 09:00** he offers to plan the week, and nags, politely, until the plan is locked.
 - **22:00** he goes quiet. Only reminders and urgent things get through until morning.
 
@@ -81,7 +81,7 @@ The protocol is small enough to fit on one line and strict enough that agents on
 - Agents email agents without asking. Humans hear only from William, and non-family humans only after the owner approves.
 - Every agent logs every protocol email it sees, including the ones between the other two. The mailbox is the source of truth; any log can be rebuilt from it.
 
-The whole thing, written so that Nica and Willy can be handed the file as-is: [docs/agent-team-protocol.md](docs/agent-team-protocol.md). The onboarding prompt to paste into a member agent, with peer-to-peer rules for the blurry cases: [docs/member-agent-prompt.md](docs/member-agent-prompt.md).
+The whole thing, written so that Mica and Willy can be handed the file as-is: [docs/agent-team-protocol.md](docs/agent-team-protocol.md). The onboarding prompt to paste into a member agent, with peer-to-peer rules for the blurry cases: [docs/member-agent-prompt.md](docs/member-agent-prompt.md).
 
 ## Safety and privacy, by construction
 

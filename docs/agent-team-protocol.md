@@ -1,21 +1,21 @@
-# The agent team: William, Nica, Willy (reference install — rename in config.yaml)
+# The agent team: William, Mica, Willy (reference install — rename in config.yaml)
 
 How three agents on three platforms work together for the owner, using one Gmail inbox
-and one Telegram chat. Written 2026-10-05 for all three agents and for the owner. Names are the defaults from the reference install; rename freely in config.yaml. If you are Nica or
+and one Telegram chat. Written 2026-10-05 for all three agents and for the owner. Names are the defaults from the reference install; rename freely in config.yaml. If you are Mica or
 Willy, this is the whole protocol; you do not need anything else from William's files.
 
 ## 1. Who does what
 
 | Agent | Platform | Role | Talks to |
 |---|---|---|---|
-| **William** | Claude Code, the owner's Mac | **Front door.** Receives everything from the outside world (the owner on Telegram, the owner's family on Telegram, email from people), decides who does the work, relays the result back. Also runs the owner's calendar, bills, reminders, week plan. | the owner and family on Telegram; Nica and Willy by email |
-| **Nica** | Meta Muse | **Personal matters.** Family logistics, home, errands, kids' day-to-day, health appointments, personal reminders, anything the owner's family ask for. | William by email only |
+| **William** | Claude Code, the owner's Mac | **Front door.** Receives everything from the outside world (the owner on Telegram, the owner's family on Telegram, email from people), decides who does the work, relays the result back. Also runs the owner's calendar, bills, reminders, week plan. | the owner and family on Telegram; Mica and Willy by email |
+| **Mica** | Meta Muse | **Personal matters.** Family logistics, home, errands, kids' day-to-day, health appointments, personal reminders, anything the owner's family ask for. | William by email only |
 | **Willy** | OpenAI Dots | **Professional and semi-professional matters.** Fundraising, PTO and school activities, a business or side project, job search, anything with an organization on the other end. | William by email only |
 
-Nica and Willy never contact the owner, his family, or anyone else directly. When they have a
+Mica and Willy never contact the owner, his family, or anyone else directly. When they have a
 result or a question for a human, they email William, and William delivers it (Telegram to
 The owner or family; email to others only after the owner approves). The owner can still open Muse or
-Dots and talk to Nica or Willy himself; that is outside this protocol.
+Dots and talk to Mica or Willy himself; that is outside this protocol.
 
 ## 2. The shape
 
@@ -25,7 +25,7 @@ flowchart LR
     P["Parents<br/>(Telegram)"] <--> W
     O["Outside world<br/>(email, after the owner's OK)"] <--> W
     W["WILLIAM<br/>front door<br/>Claude Code"]
-    W <-- "email, subject-routed<br/>you@example.com" --> N["NICA<br/>personal<br/>Meta Muse"]
+    W <-- "email, subject-routed<br/>you@example.com" --> N["MICA<br/>personal<br/>Meta Muse"]
     W <-- "email, subject-routed<br/>you@example.com" --> Y["WILLY<br/>professional<br/>OpenAI Dots"]
     N -. "read-only: both see<br/>every protocol email" .- Y
 ```
@@ -33,7 +33,7 @@ flowchart LR
 Plain-text version of the same picture:
 
 ```
-   the owner (Telegram) ─┐                          ┌─> NICA  (Meta Muse)   personal
+   the owner (Telegram) ─┐                          ┌─> MICA  (Meta Muse)   personal
    Parents (Telegram) ─┼──> WILLIAM (front door) ─┤        both read every
    Outside email ──────┘        │                 └─> WILLY (OpenAI Dots) professional
                                 │
@@ -53,22 +53,22 @@ agent-to-agent email has this exact subject shape:
 Examples:
 
 ```
-William to Nica: book the dentist follow-up, week of Oct 13 [#a0007]
-Nica to William: dentist follow-up booked Tue Oct 14 15:30 [#a0007]
+William to Mica: book the dentist follow-up, week of Oct 13 [#a0007]
+Mica to William: dentist follow-up booked Tue Oct 14 15:30 [#a0007]
 William to Willy: PTO fall fundraiser, volunteer slots for the owner [#a0008]
 Willy to William: question, which Saturday is the owner free? [#a0008]
 ```
 
 Rules:
-- **Names are exactly** `William`, `Nica`, `Willy`. Capitalized, no "@", no platform names.
+- **Names are exactly** `William`, `Mica`, `Willy`. Capitalized, no "@", no platform names.
 - **The id** is `#a` followed by four digits, assigned by whoever opens the thread (normally
   William). **Every message about that request keeps the same id**, in the subject, until the
   request is closed. Never reuse an id.
 - **Reply by sending a new email with the flipped names and the same id.** Threading with
   "Re:" is fine but not required; agents match on `[#id]`, never on the thread.
-- Search patterns each agent uses: `subject:"to William" ` / `subject:"to Nica"` /
+- Search patterns each agent uses: `subject:"to William" ` / `subject:"to Mica"` /
   `subject:"to Willy"`, plus the id for a specific request. Keep the colon and spacing as shown.
-- Anything in the mailbox **without** this subject shape is the owner's ordinary mail. Nica and
+- Anything in the mailbox **without** this subject shape is the owner's ordinary mail. Mica and
   Willy do not touch it. (William reads it as part of his normal job; a separate tool,
   maileman, labels it.)
 
@@ -78,7 +78,7 @@ Plain text, short, top to bottom:
 
 ```
 KIND: request | status | question | done | fyi
-FROM: William          TO: Nica          ID: #a0007
+FROM: William          TO: Mica          ID: #a0007
 ASKED BY: the owner's father (Telegram, 2026-10-05 11:20 PT)    <- who originally asked, if anyone
 DUE: 2026-10-10                                               <- optional
 
@@ -97,11 +97,11 @@ NEXT: <who does what next, one line>
 ## 5. How a request flows
 
 1. **Inbound.** the owner or a family member messages William on Telegram, or an email arrives for
-   the owner that needs work. William decides: personal → Nica, professional → Willy. Unclear →
+   the owner that needs work. William decides: personal → Mica, professional → Willy. Unclear →
    William asks the owner once and remembers the answer as a routing rule.
 2. **Dispatch.** William sends `William to <Agent>: … [#id]` with `KIND: request`, and logs it
-   (see §7). He tells the asker "passed to Nica, I'll come back to you" if they are waiting.
-3. **Work.** Nica or Willy does the work on their own platform. They may send `status` emails
+   (see §7). He tells the asker "passed to Mica, I'll come back to you" if they are waiting.
+3. **Work.** Mica or Willy does the work on their own platform. They may send `status` emails
    on long tasks and `question` emails when they need something only the owner can answer.
 4. **Questions for the owner** go to William by email; William asks the owner on Telegram and emails
    the answer back under the same id. Agents do not wait silently: a `question` with no answer
@@ -115,16 +115,16 @@ NEXT: <who does what next, one line>
    3 days if no DUE) gets a `status` request from William. Three unanswered nudges → William
    tells the owner the agent is unresponsive.
 
-## 5b. Peer-to-peer: Nica and Willy may email each other
+## 5b. Peer-to-peer: Mica and Willy may email each other
 
 Many requests sit between personal and professional life. The agent William sent a request to
 **owns** it, but may email the other agent directly, same subject shape, same id, to get the
 piece it is missing or to hand the whole thing over:
 
 ```
-Nica to Willy: what's the PTO contact for the fall event? [#a0012]     (KIND: question)
-Willy to Nica: … [#a0012]                                                (KIND: fyi)
-Nica to William: done … [#a0012]                                         (only the owner sends done)
+Mica to Willy: what's the PTO contact for the fall event? [#a0012]     (KIND: question)
+Willy to Mica: … [#a0012]                                                (KIND: fyi)
+Mica to William: done … [#a0012]                                         (only the owner sends done)
 ```
 
 - Helping is not taking over. Only the owning agent sends `done` to William.
@@ -140,7 +140,7 @@ Nica to William: done … [#a0012]                                         (only
   the morning digest listing open agent requests (id, agent, topic, age).
 - **Family** hears from William on Telegram, in their language, only about their own requests.
 - **Anyone else** hears from William by email, only after the owner has seen the draft and said yes.
-- Nica and Willy never message a human. If they could do it faster themselves, they still don't.
+- Mica and Willy never message a human. If they could do it faster themselves, they still don't.
 
 ## 7. The shared log: everyone keeps the whole picture
 
@@ -149,8 +149,8 @@ its own** — sent or received by anyone, including the ones between the other t
 email:
 
 ```
-2026-10-05 11:24 PT | #a0007 | William -> Nica | request | dentist follow-up, week of Oct 13
-2026-10-05 13:02 PT | #a0007 | Nica -> William | done    | booked Tue Oct 14 15:30
+2026-10-05 11:24 PT | #a0007 | William -> Mica | request | dentist follow-up, week of Oct 13
+2026-10-05 13:02 PT | #a0007 | Mica -> William | done    | booked Tue Oct 14 15:30
 ```
 
 Why: sessions restart, platforms differ, and memory is not shared. The mailbox is the single
@@ -161,7 +161,7 @@ the mailbox wins.
 Where each agent keeps it:
 - William: `state/agent-mail-log.md` (this directory), plus `state/agent-requests.yaml` for the
   open/closed state of each id.
-- Nica and Willy: wherever their platform keeps persistent notes, under the same line format,
+- Mica and Willy: wherever their platform keeps persistent notes, under the same line format,
   so a log line from any agent means the same thing.
 
 ## 8. Things that are always true

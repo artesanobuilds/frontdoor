@@ -63,10 +63,10 @@ Mom (Telegram, es) ──> William: "¿puedes recordarle a Alex la torta del sá
   ├─ reply to Mom's chat: "Claro, se lo paso."
   ├─ todo.md ## 👪 Family requests: "- [ ] pick up the cake Saturday (from: Mom, …)"
   ├─ state/open-loops.yaml: family-request-cake-2026-10-10
-  ├─ if real work:  email  "William to Nica: order and pick up the cake Sat [#a0012]"
+  ├─ if real work:  email  "William to Mica: order and pick up the cake Sat [#a0012]"
   │                 state/agent-requests.yaml + state/agent-mail-log.md
   ├─ owner: next digest (or now, if urgent)
-  └─ later: "Nica to William: ordered, pickup Sat 11:00 [#a0012]" (10-min poller)
+  └─ later: "Mica to William: ordered, pickup Sat 11:00 [#a0012]" (10-min poller)
             → owner on Telegram, Mom on Telegram, loop closed, log line
 ```
 

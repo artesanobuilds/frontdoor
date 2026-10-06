@@ -94,10 +94,10 @@
     <path d="M1074 402 C 1120 450, 1150 480, 1196 498"/>
   </g>
 
-  <!-- NICA card -->
+  <!-- MICA card -->
   <g filter="url(#shadow)"><rect x="1200" y="200" width="320" height="170" rx="24" fill="url(#ncard)"/></g>
   <text x="1226" y="236" fill="#fdf2f8" font-size="13" font-weight="700" letter-spacing="2">PERSONAL</text>
-  <text x="1226" y="280" fill="#ffffff" font-size="34" font-weight="800">Nica</text>
+  <text x="1226" y="280" fill="#ffffff" font-size="34" font-weight="800">Mica</text>
   <text x="1226" y="308" fill="#fce7f3" font-size="15">Meta Muse</text>
   <text x="1226" y="340" fill="#fdf2f8" font-size="16">Personal life</text>
 
@@ -115,7 +115,7 @@
   <!-- subject line sample -->
   <g filter="url(#shadow)"><rect x="580" y="600" width="940" height="150" rx="20" fill="#0b1220" stroke="#334155"/></g>
   <text x="608" y="636" fill="#64748b" font-size="13" font-weight="700" letter-spacing="2">THE PROTOCOL, IN ONE LINE</text>
-  <text x="608" y="676" fill="#e2e8f0" font-size="22" font-family="SF Mono, Menlo, Consolas, monospace">William to Nica: book the dentist follow-up, week of Oct 13 [#a0007]</text>
+  <text x="608" y="676" fill="#e2e8f0" font-size="22" font-family="SF Mono, Menlo, Consolas, monospace">William to Mica: book the dentist follow-up, week of Oct 13 [#a0007]</text>
   <text x="608" y="712" fill="#94a3b8" font-size="15">&lt;From&gt; to &lt;To&gt;: &lt;topic&gt; [#id]  ·  reply by flipping the names and keeping the id  ·  every agent logs every message</text>
   <text x="608" y="736" fill="#94a3b8" font-size="15">kinds: request · status · question · done · fyi  ·  agents email agents freely; humans hear only from William</text>
 

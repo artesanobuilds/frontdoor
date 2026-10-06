@@ -50,7 +50,7 @@ agents:                           # the agent team; see docs/agent-team-protocol
   subject_pattern: "<From> to <To>: <topic> [#a0000]"
   check_minutes: 10               # tools/mailcheck.sh cadence (launchd), independent of the tick
   members:
-    - { name: Nica,  platform: "Meta Muse",   scope: "personal: family logistics, home, errands, health appointments" }
+    - { name: Mica,  platform: "Meta Muse",   scope: "personal: family logistics, home, errands, health appointments" }
     - { name: Willy, platform: "OpenAI Dots", scope: "professional: fundraising, school/PTO, business, job search" }
 
 sources:
