@@ -61,9 +61,10 @@ have this problem.
 ## 4. The agent team (optional)
 
 Edit `config.yaml:agents`: the shared mailbox (the same Gmail William is logged into), the
-member agents and their scopes. Give each member agent the file
-[docs/agent-team-protocol.md](agent-team-protocol.md) and Gmail access to the same mailbox on
-their own platform. That is the whole integration.
+member agents and their scopes. Onboard each member agent with
+[docs/member-agent-prompt.md](member-agent-prompt.md) (the prompt plus where to paste it per
+platform) and give it Gmail access to the same mailbox. The full protocol, for reference, is
+[docs/agent-team-protocol.md](agent-team-protocol.md). That is the whole integration.
 
 ## 5. Keep it alive
 

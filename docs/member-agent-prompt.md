@@ -1,9 +1,35 @@
-# Onboarding prompt for a member agent
+# Onboarding a member agent
 
-Paste everything below the line into the agent's instructions (system prompt, custom
-instructions, project notes, whatever the platform calls it). The same text works for every
-member agent; only the first three lines change. Give it the mailbox credentials separately,
-on the platform, never inside the prompt.
+This file is the packet you hand to each member agent (Nica, Willy, or whatever you named
+yours). The prompt below the line is generic: the same text goes to every member, and only
+the placeholders change.
+
+## How to feed it to an agent
+
+1. **Fill the placeholders.** Copy the text below the line and replace:
+   `{{AGENT_NAME}}` (this agent), `{{AGENT_SCOPE}}` (*personal life* or *professional life*),
+   `{{OTHER_AGENT_NAME}}`, `{{OWNER_NAME}}`, `{{MAILBOX}}`. The names must match
+   `config.yaml:agents.members` on William's side exactly, capitalization included; the subject
+   line is matched on them.
+2. **Put it where the platform keeps standing instructions**, not in a one-off chat message
+   that scrolls away:
+   - *Meta Muse*: the agent's instructions / persona settings, and ask it to save the key rules
+     to its memory.
+   - *OpenAI Dots*: the agent's instructions (system prompt) for that assistant.
+   - *ChatGPT / Claude projects, custom GPTs, Gems*: project or custom instructions.
+   - *Anything else*: wherever a system prompt or "custom instructions" field lives. If there
+     is none, send it as the first message and ask the agent to store it as its standing rules.
+3. **Give the agent Gmail access to the shared mailbox** on its own platform (its Gmail
+   connector, logged into `{{MAILBOX}}`). Credentials go through the platform's connector,
+   never inside the prompt.
+4. **Add it to William's config**: `config.yaml:agents.members` gets a line with the name,
+   platform and scope. No restart; William reads config every turn.
+5. **Smoke test.** From William's session (or by hand, from the mailbox) send
+   `William to {{AGENT_NAME}}: say hello [#a0001]` with `KIND: request`. Within one check cycle
+   the agent should answer `{{AGENT_NAME}} to William: hello [#a0001]` with `KIND: done`, and
+   William should log both lines. Then test a peer message between the two members.
+6. **Re-send the prompt whenever it changes.** The protocol lives in this repo; the agents only
+   know what you pasted.
 
 ---
 
