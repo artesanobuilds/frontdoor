@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Owns the tmux SERVER so William's session survives anything short of a reboot, and comes
+       back after one. The keeper refuses to start a server itself: a keeper-started server
+       daemonizes to PPID 1 with nobody supervising it. Install tmux-server-supervise and
+       tmux-durable-lib into ~/.local/bin first. -->
+  <key>Label</key><string>com.frontdoor.tmux-server</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string><string>-c</string>
+    <string>exec "$HOME/.local/bin/tmux-server-supervise"</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>ThrottleInterval</key><integer>10</integer>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:__HOME__/.local/bin:/usr/bin:/bin</string>
+  </dict>
+  <key>StandardOutPath</key><string>__HOME__/Library/Logs/tmux-server.log</string>
+  <key>StandardErrorPath</key><string>__HOME__/Library/Logs/tmux-server.log</string>
+</dict>
+</plist>

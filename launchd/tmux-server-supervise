@@ -1,0 +1,37 @@
+#!/bin/zsh
+# tmux-server-supervise — the LaunchAgent's program. Runs the tmux server in
+# the FOREGROUND so launchd supervises the actual server process.
+#
+# WHY:
+#  * `tmux -D` keeps the server in the foreground instead of daemonizing, so
+#    the launchd job PID and the server PID are the same process — that is
+#    the definitive ownership check, and it is what lets KeepAlive restart
+#    the server after a kill/crash. tmux -D takes NO command argument and
+#    forces exit-empty off by itself (an empty server keeps running).
+#  * Before starting, we WAIT OUT any server already holding the socket
+#    (e.g. one started by a Cursor tab before this agent was installed, or
+#    by another launchd job). Starting anyway would just fail; fighting it
+#    would kill live sessions. `tmux -N ls` probes without auto-starting a
+#    server, so the probe itself can never take ownership.
+#  * When the old server finally exits, we take over; tmux reads
+#    ~/.tmux.conf at server start, so tmux-continuum's restore-on-start
+#    fires here — this is the only moment restores happen.
+#
+# Rehearse: TMUX_DURABLE_SOCKET=<name> [TMUX_DURABLE_CONF=<file>] to run a
+# test server on its own socket with its own config (so test-continuum never
+# saves over the live snapshots).
+
+source "${0:A:h}/tmux-durable-lib"
+
+while server_up; do
+  sleep 5
+done
+
+conf_args=()
+[ -n "$TMUX_DURABLE_CONF" ] && conf_args=(-f "$TMUX_DURABLE_CONF")
+
+if [ -n "$TMUX_DURABLE_SOCKET" ]; then
+  exec "$TMUX_BIN" -L "$TMUX_DURABLE_SOCKET" "${conf_args[@]}" -D
+else
+  exec "$TMUX_BIN" "${conf_args[@]}" -D
+fi

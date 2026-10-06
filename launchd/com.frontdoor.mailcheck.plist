@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <!-- Every 10 minutes: look for new agent-protocol email addressed "to William" and inject it
+       into the live session so he answers in real time instead of waiting for the tick. -->
+  <key>Label</key><string>com.frontdoor.mailcheck</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/zsh</string>
+    <string>__FRONTDOOR_HOME__/tools/mailcheck.sh</string>
+  </array>
+  <key>StartInterval</key><integer>600</integer>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>__FRONTDOOR_HOME__/state/mailcheck.log</string>
+  <key>StandardErrorPath</key><string>__FRONTDOOR_HOME__/state/mailcheck.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:__HOME__/.local/bin:/usr/bin:/bin</string>
+    <key>FRONTDOOR_HOME</key><string>__FRONTDOOR_HOME__</string>
+  </dict>
+</dict>
+</plist>

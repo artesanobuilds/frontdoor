@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- The keeper. KeepAlive + ThrottleInterval=60 makes launchd re-run it every ~60s, so it
+         acts as a watchdog: it exits fast when William is healthy and (re)starts him when not.
+         Replace __HOME__ with your home directory and __FRONTDOOR_HOME__ with the checkout path. -->
+    <key>Label</key>
+    <string>com.frontdoor.william</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>__FRONTDOOR_HOME__/tools/keeper.sh</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>60</integer>
+    <key>StandardOutPath</key>
+    <string>__FRONTDOOR_HOME__/state/keeper-launchd.log</string>
+    <key>StandardErrorPath</key>
+    <string>__FRONTDOOR_HOME__/state/keeper-launchd.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:__HOME__/.local/bin:/usr/bin:/bin</string>
+        <key>FRONTDOOR_HOME</key>
+        <string>__FRONTDOOR_HOME__</string>
+    </dict>
+</dict>
+</plist>

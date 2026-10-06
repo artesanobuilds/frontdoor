@@ -1,0 +1,66 @@
+#!/bin/zsh
+# tmux-durable-lib — shared helpers sourced by the tmux-durable scripts.
+#
+# WHY this exists: every script in the family must (a) find tmux without
+# hardcoded paths, (b) talk to the SAME server the caller means — which is
+# the server in $TMUX when run as a tmux/resurrect hook, an -L override
+# socket when rehearsing, or the default socket otherwise — and (c) agree
+# on where shared state lives. Centralizing that prevents the classic bug
+# where a hook script talks to the default socket while rehearsing on a
+# test one.
+
+TMUX_BIN="${TMUX_BIN:-$(command -v tmux)}"
+[ -z "$TMUX_BIN" ] && TMUX_BIN=/opt/homebrew/bin/tmux
+
+# Label of the LaunchAgent that owns the server. Overridable so rehearsals
+# can point at a throwaway test agent instead of the real one.
+TMUX_DURABLE_AGENT="${TMUX_DURABLE_AGENT:-com.frontdoor.tmux-server}"
+
+# All shared state (claude map, claim mutex, rehearse logs) lives here.
+# Keyed by socket name so a rehearsal on a test socket never reads or
+# clobbers the live socket's state.
+# Hook-invoked scripts inherit $TMUX but not our env vars — derive the key
+# from the socket path in $TMUX first, so a test server's hooks key to the
+# test state dir, never the live one.
+if [ -n "$TMUX" ]; then
+  _sock_key="$(basename "${TMUX%%,*}")"
+else
+  _sock_key="${TMUX_DURABLE_SOCKET:-default}"
+fi
+TMUX_DURABLE_STATE="${TMUX_DURABLE_STATE:-$HOME/.local/state/tmux-durable/$_sock_key}"
+mkdir -p "$TMUX_DURABLE_STATE"
+
+# t — run tmux against the right server.
+# Inside tmux (hook context) $TMUX already names the socket, so a bare call
+# is correct and MUST NOT be overridden: resurrect hooks inherit $TMUX and
+# that is what makes them target the server that invoked them.
+t() {
+  if [ -n "$TMUX" ]; then
+    "$TMUX_BIN" "$@"
+  elif [ -n "$TMUX_DURABLE_SOCKET" ]; then
+    "$TMUX_BIN" -L "$TMUX_DURABLE_SOCKET" "$@"
+  else
+    "$TMUX_BIN" "$@"
+  fi
+}
+
+# tN — probe-only variant: -N forbids tmux from auto-starting a server, so
+# "is a server up?" never answers itself by creating one (gotcha: a probe
+# that starts a server steals ownership from launchd).
+tN() {
+  if [ -n "$TMUX" ]; then
+    "$TMUX_BIN" -N "$@"
+  elif [ -n "$TMUX_DURABLE_SOCKET" ]; then
+    "$TMUX_BIN" -L "$TMUX_DURABLE_SOCKET" -N "$@"
+  else
+    "$TMUX_BIN" -N "$@"
+  fi
+}
+
+server_up() { tN ls >/dev/null 2>&1; }
+
+# The user's real login shell, derived not assumed (SHELL is unset under
+# launchd, which is exactly why tmux.conf hardcodes default-command).
+user_shell() {
+  dscl . -read "/Users/$USER" UserShell 2>/dev/null | awk '{print $2}' | grep . || echo /bin/zsh
+}

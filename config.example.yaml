@@ -1,0 +1,61 @@
+# FrontDoor — William's config. Copy to config.yaml and fill in.
+# This file is the ONLY source of truth for ids, hours, paths and names. William reads it every
+# turn and never invents an identifier from memory. Values are self-tunable from feedback;
+# annotate tuned values with "# tuned <date>: <why>".
+
+owner:
+  name: Alex                      # how William addresses you
+  timezone: America/Los_Angeles   # all local-day and quiet-hour logic
+
+telegram:
+  chat_id: "123456789"            # YOUR Telegram user id (== your DM chat id). The ONLY proactive target.
+  family:                         # people who may DM the bot with requests; see guides/family.md
+    # "987654321": { name: Mom, relation: mother, lang: en }
+    # "876543210": { name: Papá, relation: father, lang: es }
+
+areas:                            # the life areas William files TODOs and coaching against
+  - { key: family,   label: "👨‍👩‍👧 Family" }
+  - { key: personal, label: "🌱 Personal" }
+  - { key: work,     label: "💼 Work" }
+  - { key: side,     label: "🛠 Side project" }
+  - { key: health,   label: "🕊 Health" }
+
+digest:
+  hour_local: 7                   # first tick at/after 07:00 local sends the morning digest (once/day)
+
+quiet_hours:                      # non-urgent pings held until morning
+  start: "22:00"
+  end: "07:00"
+
+heartbeat:
+  default_tick_minutes: 30        # 30 by day, 60 in quiet hours (the keeper switches). 10 was too
+                                  # expensive: most of the burn is per-tick context, not work.
+  pre_event_nudge_minutes: 45     # nudge before a calendar event, once per event
+
+coaching:
+  daily_nudge: true               # one pointed nudge at the end of each digest
+  weekly_review: { day: Sun, hour_local: 18 }
+  stall_checkin_days: 3           # a high-prio TODO or a whole area untouched this long → check-in
+  max_questions_per_day: 2        # assumption-confirmation budget (state/questions.yaml)
+  week_plan:
+    start_hour_local: 9           # Sunday "let's plan the week" ping at/after 09:00
+    renudge_hours: 3              # re-nudge while the plan isn't locked
+
+bills:
+  lead_days: 3                    # heads-up window before due_day (per-bill override in bills.yaml)
+
+agents:                           # the agent team; see docs/agent-team-protocol.md
+  mailbox: you@example.com        # ONE shared Gmail inbox; William's gws credentials must own it
+  self: William
+  subject_pattern: "<From> to <To>: <topic> [#a0000]"
+  check_minutes: 10               # tools/mailcheck.sh cadence (launchd), independent of the tick
+  members:
+    - { name: Nica,  platform: "Meta Muse",   scope: "personal: family logistics, home, errands, health appointments" }
+    - { name: Willy, platform: "OpenAI Dots", scope: "professional: fundraising, school/PTO, business, job search" }
+
+sources:
+  imessage_db: ~/Library/Messages/chat.db   # read-only; needs Full Disk Access. Remove to disable.
+  # inbox pings from other local agents land in inbox/*.yaml (guides/collab.md)
+
+gmail:
+  config_dir: ~/.config/gws-william         # William's OWN gws credential dir (calendar + gmail scopes only)

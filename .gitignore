@@ -1,0 +1,38 @@
+# Everything William writes at runtime is private. Only the mechanism is public.
+state/*
+!state/.gitkeep
+runs/*
+!runs/.gitkeep
+memory/*
+!memory/.gitkeep
+inbox/*
+!inbox/.gitkeep
+!inbox/processed/
+inbox/processed/*
+!inbox/processed/.gitkeep
+checklists/*
+!checklists/.gitkeep
+week-plans/*
+!week-plans/.gitkeep
+
+# personal data files (templates ship as *.example.*)
+config.yaml
+bills.yaml
+reminders.yaml
+todo.md
+todo-archive.md
+playbook.md
+playbook-archive.md
+latest.md
+
+# credentials, never
+.env
+*.enc
+client_secret*.json
+token_cache*.json
+
+# local backups and scratch
+*.bak
+*.bak-*
+*.pre-*
+.DS_Store
