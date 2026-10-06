@@ -115,6 +115,25 @@ NEXT: <who does what next, one line>
    3 days if no DUE) gets a `status` request from William. Three unanswered nudges → William
    tells the owner the agent is unresponsive.
 
+## 5b. Peer-to-peer: Nica and Willy may email each other
+
+Many requests sit between personal and professional life. The agent William sent a request to
+**owns** it, but may email the other agent directly, same subject shape, same id, to get the
+piece it is missing or to hand the whole thing over:
+
+```
+Nica to Willy: what's the PTO contact for the fall event? [#a0012]     (KIND: question)
+Willy to Nica: … [#a0012]                                                (KIND: fyi)
+Nica to William: done … [#a0012]                                         (only the owner sends done)
+```
+
+- Helping is not taking over. Only the owning agent sends `done` to William.
+- To transfer ownership, forward the request to the peer (`KIND: request`, same id, one line on
+  why) and send William a `status` so he knows who to expect `done` from.
+- A peer conversation with no existing id asks William for one first (`KIND: question`).
+- William reads every protocol email, so he is always informed; nobody CCs him.
+- Disagreement about ownership: whoever has it keeps it and asks William; William decides.
+
 ## 6. What goes back to the world
 
 - **the owner** hears from William on Telegram: results, questions from the agents, and a line in

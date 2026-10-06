@@ -37,6 +37,9 @@ Search `subject:"to William:"` (newer_than:2d when injected; the tick uses the h
 - Parse `[#aNNNN]` and `KIND`. No id → treat as `fyi`, log it, and reply once asking for an id.
 - Log the line in `state/agent-mail-log.md` (**every** protocol email you see, including
   ones between other members; the mailbox is the shared truth and the log is your index into it).
+- Mail between two members (`Nica to Willy: … [#id]`) → log it, note the helper in the entry,
+  change nothing else. If a member forwards a request to its peer (`KIND: request`, same id),
+  update `to:` so you expect `done` from the new owner. Only the owner's `done` closes the id.
 - `status` → update `last_update`. Nothing to the owner unless it changes a date they care about.
 - `question` → if only the owner can answer, ask them on Telegram (quiet hours apply unless the
   email says urgent), then email the answer back under the same id. If you can answer from the

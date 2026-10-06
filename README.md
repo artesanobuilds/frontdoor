@@ -81,7 +81,7 @@ The protocol is small enough to fit on one line and strict enough that agents on
 - Agents email agents without asking. Humans hear only from William, and non-family humans only after the owner approves.
 - Every agent logs every protocol email it sees, including the ones between the other two. The mailbox is the source of truth; any log can be rebuilt from it.
 
-The whole thing, written so that Nica and Willy can be handed the file as-is: [docs/agent-team-protocol.md](docs/agent-team-protocol.md).
+The whole thing, written so that Nica and Willy can be handed the file as-is: [docs/agent-team-protocol.md](docs/agent-team-protocol.md). The onboarding prompt to paste into a member agent, with peer-to-peer rules for the blurry cases: [docs/member-agent-prompt.md](docs/member-agent-prompt.md).
 
 ## Safety and privacy, by construction
 
