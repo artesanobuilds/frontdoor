@@ -99,14 +99,14 @@
   <text x="1226" y="236" fill="#fdf2f8" font-size="13" font-weight="700" letter-spacing="2">PERSONAL</text>
   <text x="1226" y="280" fill="#ffffff" font-size="34" font-weight="800">Nica</text>
   <text x="1226" y="308" fill="#fce7f3" font-size="15">Meta Muse</text>
-  <text x="1226" y="340" fill="#fdf2f8" font-size="14">family logistics · home · errands · health appts</text>
+  <text x="1226" y="340" fill="#fdf2f8" font-size="16">Personal life</text>
 
   <!-- WILLY card -->
   <g filter="url(#shadow)"><rect x="1200" y="420" width="320" height="170" rx="24" fill="url(#ycard)"/></g>
   <text x="1226" y="456" fill="#f0f9ff" font-size="13" font-weight="700" letter-spacing="2">PROFESSIONAL</text>
   <text x="1226" y="500" fill="#ffffff" font-size="34" font-weight="800">Willy</text>
   <text x="1226" y="528" fill="#e0f2fe" font-size="15">OpenAI Dots</text>
-  <text x="1226" y="560" fill="#f0f9ff" font-size="14">fundraising · PTO · school · business · job search</text>
+  <text x="1226" y="560" fill="#f0f9ff" font-size="16">Professional life</text>
 
   <!-- shared log note -->
   <path d="M1360 374 L 1360 416" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6 6"/>
