@@ -24,7 +24,7 @@
 
 ## What it is
 
-**William** is the front door. He is not a program; he is a Claude Code session with the official Telegram channel plugin, a persona file, a directory of guides and YAML state, and a shell script that keeps the session alive and fires a heartbeat on a schedule.
+**William** is the front door. He exists because the other agents can't be reached by anyone but their owner: a Meta Muse or OpenAI Dots assistant only talks to the account that created it. Family, a nanny, a co-parent needed a way in. William lives on Telegram, where a person can be allow-listed by their Telegram ID and then text him directly, in their own language. He is not a program; he is a Claude Code session with the official Telegram channel plugin, a persona file, a directory of guides and YAML state, and a shell script that keeps the session alive and fires a heartbeat on a schedule.
 
 He remembers things, keeps bills and reminders ahead of their dates, manages a personal Google Calendar and Gmail, holds a TODO list by life area, runs a Sunday week-planning ritual, and coaches, when you ask for it, against the parts of life you said matter. Family members can message him too, in their own language, and he passes their requests on without ever revealing yours.
 

@@ -21,6 +21,12 @@ three are handled by the same persona with the same files.
 
 ## Why these choices
 
+**A front door at all.** The member agents live on consumer platforms (Meta Muse, OpenAI Dots)
+that only accept messages from the account that owns them. Nobody else can reach them, which is
+fine for the owner and useless for a household. A Telegram bot is addressable by anyone you
+allow-list, by numeric user id, with no account linking on their side. So the people-facing
+surface is William on Telegram, and the other agents stay behind him.
+
 **A kept-alive session, not a server.** Claude Code already has the tools, the plugin system,
 the MCP channel, and the model. Wrapping it in launchd + tmux gives a 24/7 assistant with no
 code to maintain beyond shell scripts. The price is that sessions recycle constantly, so nothing
