@@ -26,16 +26,27 @@ At the very top of `server.ts`, after the shebang and before the imports:
 
 ```ts
 // Local patch: only the session started by tools/keeper.sh may poll the Telegram token.
-if (!process.env.WILLIAM_CHANNEL) {
-  console.error('telegram channel: WILLIAM_CHANNEL not set — refusing to start')
-  process.exit(0)
+// The value is a per-start nonce that must match the file the keeper wrote.
+import { readFileSync as __nonceRead } from 'fs'
+{
+  const want = process.env.WILLIAM_CHANNEL
+  const nf = process.env.WILLIAM_NONCE_FILE
+  let ok = false
+  try { ok = !!want && !!nf && __nonceRead(nf, 'utf8').trim() === want } catch {}
+  if (!ok) {
+    console.error('telegram channel: WILLIAM_CHANNEL nonce missing or stale — refusing to start')
+    process.exit(0)
+  }
 }
 ```
 
-`tools/keeper.sh` passes `WILLIAM_CHANNEL=1` to the session with `tmux new-session -e`. Never
-set it globally (`tmux setenv -g`, a shell rc file): every pane created afterwards inherits it,
-and you are back to the stolen-channel problem, now with a confusing kill→recycle pattern in
-`state/keeper.log`.
+`tools/keeper.sh` generates a random nonce on every start, writes it to `state/channel-nonce`
+(mode 600) and passes both `WILLIAM_CHANNEL=<nonce>` and `WILLIAM_NONCE_FILE=<path>` to the
+session with `tmux new-session -e`. Why a nonce and not a flag: a flag leaks. The first version
+was `WILLIAM_CHANNEL=1`, and every process that ever inherited it (an agent UI started from a
+terminal tab, a `claude --resume`) passed the guard and stole the channel for weeks. A value
+that changes on every keeper start cannot be inherited usefully: anything older than the current
+session fails the compare.
 
 ## Patch 2: permission prompts go to the owner only
 

@@ -31,8 +31,8 @@ export GOOGLE_WORKSPACE_CLI_CONFIG_DIR="$CFG_DIR"
 "$TMUX_BIN" has-session -t "$SESSION" 2>/dev/null || { log "session down, skipping"; exit 0; }
 
 # newest protocol mail addressed to me, last 2 days (the tick covers anything older)
-Q="subject:\"to ${SELF}:\" newer_than:2d"
-RAW=$(gws gmail users messages list --params "{\"userId\":\"me\",\"q\":\"$Q\",\"maxResults\":20}" 2>/dev/null | grep -v -i '^Using keyring')
+PARAMS=$($PY -c 'import json,sys; print(json.dumps({"userId":"me","q":"subject:\"to %s:\" newer_than:2d" % sys.argv[1],"maxResults":20}))' "$SELF")
+RAW=$(gws gmail users messages list --params "$PARAMS" 2>/dev/null | grep -v -i '^Using keyring')
 IDS=$(print -r -- "$RAW" | $PY -c '
 import sys, json
 try:
@@ -44,7 +44,7 @@ if "error" in d:            # auth or API failure: say nothing, never report "no
 print(" ".join(m["id"] for m in d.get("messages", [])))
 ')
 RC=$?
-if (( RC == 2 )); then log "gmail query failed (auth?) — not reporting"; exit 0; fi
+if (( RC == 2 )); then log "gmail query failed — not reporting: $(print -r -- "$RAW" | tr -d "\n" | cut -c1-200)"; exit 0; fi
 
 touch "$SEEN"
 NEW=()

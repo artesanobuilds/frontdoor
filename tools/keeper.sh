@@ -100,11 +100,11 @@ if ! "$TMUX_BIN" -N ls >/dev/null 2>&1; then
 fi
 
 # 2026-10-05: Claude Code keeps a SHARED cache of MCP servers it believes need auth
-# (~/.claude/mcp-needs-auth-cache.json). When any OTHER session in this directory (another agent UI,
+# (~/.claude/mcp-needs-auth-cache.json). When any OTHER session in this directory (a bb thread,
 # a `claude --resume`) loads the telegram plugin, the WILLIAM_CHANNEL guard makes it exit, and
 # Claude Code records plugin:telegram:telegram there. Every session started afterwards -- William
 # included -- then silently skips the channel: no bun child, "did not come up within 60s", recycle
-# loop (three recycles in ten minutes the day this was found). Drop the entry before each start.
+# loop (10:57-11:06 today, three recycles). Drop the entry before each start.
 NAC="$HOME/.claude/mcp-needs-auth-cache.json"
 if [[ -f "$NAC" ]] && grep -q 'plugin:telegram:telegram' "$NAC"; then
   /usr/bin/python3 - "$NAC" <<'PY' && log "cleared stale plugin:telegram:telegram entry from mcp-needs-auth-cache.json"
@@ -120,7 +120,6 @@ log "starting William session (model $MODEL, tick ${CADENCE}m)"
 export PATH="/opt/homebrew/bin:/usr/local/bin:$HOME/.local/bin:/usr/bin:/bin"
 # Marks this session as the ONE allowed Telegram poller — the plugin's server.ts refuses to run
 # without it, so other Claude Code sessions can't steal the channel (see project memory).
-export WILLIAM_CHANNEL=1
 # effort medium: William's work is judgment about a known life, not hard reasoning — high effort
 # added minutes of latency to phone replies for no gain (2026-08-04).
 # 2026-08-20: pass WILLIAM_CHANNEL through tmux EXPLICITLY. A new session inherits the tmux
@@ -128,10 +127,16 @@ export WILLIAM_CHANNEL=1
 # script created the tmux server 2s before the keeper, so the exported var never reached the
 # pane, the plugin guard exited 0, and the channel never came up (recycle storm 07:51-08:0x).
 # 2026-10-05: -e ONLY, never `setenv -g`. The global setenv leaked the guard into every pane
-# created later on the shared server (other terminal tabs), so other
+# created later on the shared server (the user's ws* tabs, and bb launched from one), so other
 # Claude sessions started their own pollers and stole the token. Those were the "foreign"
-# pollers in keeper.log (the kill line's parent pid was another Claude session): the real cause.
-"$TMUX_BIN" new-session -d -s "$SESSION" -c "$WHOME" -e "WILLIAM_CHANNEL=1" \
+# pollers in keeper.log (08:28 parent was a bb thread's claude): the real recycle-storm cause.
+# 2026-10-07: a per-start NONCE instead of "1". Any other process that inherited an older value
+# (a bb thread, a `claude --resume` from a dirty tab) fails the plugin guard, which compares the
+# env value to state/channel-nonce. Only the session started right here matches.
+NONCE=$(head -c 16 /dev/urandom | xxd -p)
+NONCE_FILE="$WHOME/state/channel-nonce"
+print -r -- "$NONCE" > "$NONCE_FILE"; chmod 600 "$NONCE_FILE"
+"$TMUX_BIN" new-session -d -s "$SESSION" -c "$WHOME" -e "WILLIAM_CHANNEL=$NONCE" -e "WILLIAM_NONCE_FILE=$NONCE_FILE" \
   "$CLAUDE --model $MODEL --effort medium --channels plugin:telegram@claude-plugins-official"
 
 # wait for the UI to be ready (prompt visible)
